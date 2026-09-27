@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maison Verre — Service Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ══════════════════ SHELL ══════════════════ -->
+<div class="shell">
+
+  <!-- ─────── SIDEBAR ─────── -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M7 3v8.2a3 3 0 0 0 3 3h4a3 3 0 0 0 3-3V3" stroke-linecap="round"/>
+          <path d="M7 8.5h10M10.5 14.2V21" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <span class="brand-name">Maison Verre</span>
+        <span class="brand-sub">Service Console</span>
+      </div>
+    </div>
+
+    <nav class="nav" aria-label="Primary">
+      <span class="nav-eyebrow">Floor</span>
+      <a class="nav-item is-active" href="#" data-nav>
+        <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="2.5" width="6" height="6" rx="1.2"/><rect x="11.5" y="2.5" width="6" height="6" rx="1.2"/><rect x="2.5" y="11.5" width="6" height="6" rx="1.2"/><rect x="11.5" y="11.5" width="6" height="6" rx="1.2"/></svg>
+        <span>Overview</span>
+        <span class="nav-badge" data-live="orders">0</span>
+      </a>
+      <a class="nav-item" href="#" data-nav>
+        <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h14M3 10h14M3 14h9" stroke-linecap="round"/></svg>
+        <span>Orders</span>
+        <span class="nav-badge nav-badge--alert" data-live="flagged">0</span>
+      </a>
+      <a class="nav-item" href="#" data-nav>
+        <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="2.5" width="15" height="15" rx="2"/><path d="M2.5 12.5h15M7.5 2.5v15" stroke-linecap="round"/></svg>
+        <span>Floor &amp; Tables</span>
+      </a>
+      <a class="nav-item" href="#" data-nav>
+        <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="4" width="15" height="13.5" rx="2"/><path d="M2.5 8h15M6 2.5v3M14 2.5v3" stroke-linecap="round"/></svg>
+        <span>Reservations</span>
+        <span class="nav-badge" data-live="res">0</span>
+      </a>
+
+      <span class="nav-eyebrow">Insight</span>
+      <a class="nav-item" href="#" data-nav>
+        <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 16.5V9M8 16.5V4M13 16.5v-5M18 16.5H2" stroke-linecap="round"/></svg>
+        <span>Metrics</span>
+      </a>
+      <a class="nav-item" href="#" data-nav>
+        <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="7" r="4.5"/><path d="M3 17.5c0-3.6 3.1-5.5 7-5.5s7 1.9 7 5.5" stroke-linecap="round"/></svg>
+        <span>Staff</span>
+      </a>
+      <a class="nav-item" href="#" data-nav>
+        <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6.5h14v9a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 3 15.5z"/><path d="M3 6.5 5 3h10l2 3.5M3 6.5a4 4 0 0 0 4 2 4 4 0 0 0 4-2 4 4 0 0 0 4 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Menu</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-foot">
+      <div class="service-card">
+        <div class="service-top">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span class="service-label">Dinner service</span>
+          <span class="service-live">LIVE</span>
+        </div>
+        <div class="service-clock" data-clock>18:42:07</div>
+        <div class="service-rows">
+          <div class="service-row"><span>Shift</span><b>04:00 PM – 11:30 PM</b></div>
+          <div class="service-row"><span>Manager</span><b>Amara Osei</b></div>
+          <div class="service-row"><span>Covers</span><b><span data-live="covers">0</span> / 96</b></div>
+        </div>
+        <div class="meter" role="img" aria-label="Covers seated against capacity">
+          <div class="meter-fill" data-meter style="transform:scaleX(0)"></div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─────── MAIN ─────── -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title">Tonight&rsquo;s service</h1>
+        <p class="page-sub">
+          <span data-today>Thursday, 12 June</span>
+          <span class="dot-sep" aria-hidden="true"></span>
+          <span>Forecast <b class="ink-bright">$18.4k</b> at 82%</span>
+        </p>
+      </div>
+
+      <div class="topbar-right">
+        <div class="field-search">
+          <svg class="field-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="5.5"/><path d="m13.5 13.5 3.5 3.5" stroke-linecap="round"/></svg>
+          <input type="search" id="globalSearch" placeholder="Search orders, tables, guests…" autocomplete="off" aria-label="Search">
+          <kbd>/</kbd>
+        </div>
+        <button class="icon-btn" aria-label="Notifications" data-press>
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2.5a5 5 0 0 0-5 5v3l-1.5 3h13l-1.5-3v-3a5 5 0 0 0-5-5z" stroke-linejoin="round"/><path d="M8 16.5a2 2 0 0 0 4 0" stroke-linecap="round"/></svg>
+          <span class="icon-btn-dot" data-live="alerts">0</span>
+        </button>
+        <div class="avatar" title="Amara Osei">AO</div>
+      </div>
+    </header>
+
+    <!-- ALERT RAIL -->
+    <section class="alerts" aria-label="Operational issues" id="alerts"></section>
+
+    <!-- KPI STRIP -->
+    <section class="kpi-row" aria-label="Key metrics" id="kpiRow"></section>
+
+    <!-- SPLIT -->
+    <div class="split">
+
+      <!-- ORDERS -->
+      <section class="panel panel--orders" aria-label="Orders">
+        <div class="panel-head">
+          <div class="panel-title">
+            <h2>Order queue</h2>
+            <span class="panel-count" data-live="ordersTotal">0</span>
+          </div>
+          <div class="chip-rail" role="tablist" aria-label="Filter by status" id="filters"></div>
+        </div>
+
+        <div class="orders-head" aria-hidden="true">
+          <span>Ticket</span><span>Table</span><span>Items</span><span>Server</span><span>Elapsed</span><span>Status</span><span></span>
+        </div>
+
+        <div class="orders-list" id="ordersList"></div>
+
+        <div class="orders-empty" id="ordersEmpty" hidden>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 7h18v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 7 5.5 3.5h13L21 7M3 7a4.5 4.5 0 0 0 4.5 2.2A4.5 4.5 0 0 0 12 7a4.5 4.5 0 0 0 4.5 2.2A4.5 4.5 0 0 0 21 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <p class="empty-title">No tickets match</p>
+          <p class="empty-sub">Try a different status or clear the search.</p>
+          <button class="btn btn--ghost btn--sm" data-clear-filters>Clear filters</button>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
+
+        <!-- FLOOR PLAN -->
+        <section class="panel panel--floor" aria-label="Table map">
+          <div class="panel-head panel-head--tight">
+            <div class="panel-title">
+              <h2>Floor</h2>
+              <span class="panel-sub" data-floor-summary>—</span>
+            </div>
+            <div class="legend" id="legend"></div>
+          </div>
+          <div class="floor" id="floor">
+            <div class="floor-fixture floor-fixture--bar"><span>Bar</span></div>
+            <div class="floor-fixture floor-fixture--pass"><span>Kitchen pass</span></div>
+            <div class="floor-fixture floor-fixture--host"><span>Host</span></div>
+          </div>
+        </section>
+
+        <!-- RESERVATIONS -->
+        <section class="panel panel--res" aria-label="Reservations">
+          <div class="panel-head panel-head--tight">
+            <div class="panel-title">
+              <h2>Reservations</h2>
+              <span class="panel-count" data-live="resTotal">0</span>
+            </div>
+            <button class="btn btn--ghost btn--sm" data-press>View book</button>
+          </div>
+          <div class="res-list" id="resList"></div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- METRICS BAND -->
+    <div class="band">
+      <section class="panel panel--chart" aria-label="Hourly sales">
+        <div class="panel-head panel-head--tight">
+          <div class="panel-title">
+            <h2>Net sales by hour</h2>
+            <span class="panel-sub" id="peakLabel">—</span>
+          </div>
+          <div class="seg" id="chartSeg" role="tablist" aria-label="Range">
+            <button class="seg-btn is-active" data-press>Today</button>
+            <button class="seg-btn" data-press>7d</button>
+            <button class="seg-btn" data-press>30d</button>
+          </div>
+        </div>
+        <div class="chart" id="chart"></div>
+      </section>
+
+      <section class="panel panel--items" aria-label="Top sellers">
+        <div class="panel-head panel-head--tight">
+          <div class="panel-title"><h2>Top sellers</h2><span class="panel-sub">units today</span></div>
+        </div>
+        <ol class="items" id="items"></ol>
+      </section>
+
+      <section class="panel panel--pulse" aria-label="Service health">
+        <div class="panel-head panel-head--tight">
+          <div class="panel-title"><h2>Service health</h2></div>
+        </div>
+        <div class="gauges" id="gauges"></div>
+      </section>
+    </div>
+
+    <footer class="foot">
+      <span>Maison Verre &middot; Union Wharf</span>
+      <span class="dot-sep" aria-hidden="true"></span>
+      <span>POS sync <b class="ok-text">healthy</b> &middot; 1.2s lag</span>
+      <span class="dot-sep" aria-hidden="true"></span>
+      <span>Last reconciled 18:41:52</span>
+    </footer>
+  </main>
+</div>
+
+<!-- ══════════════════ ORDER DRAWER ══════════════════ -->
+<div class="scrim" id="scrim" hidden></div>
+
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+  <div class="drawer-grip" aria-hidden="true"></div>
+  <header class="drawer-head">
+    <div class="drawer-id">
+      <span class="drawer-ticket" id="drawerTicket">#0000</span>
+      <span class="pill" id="drawerStatus">—</span>
+    </div>
+    <button class="icon-btn" id="drawerClose" aria-label="Close" data-press>
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m5 5 10 10M15 5 5 15" stroke-linecap="round"/></svg>
+    </button>
+  </header>
+
+  <div class="drawer-body" id="drawerBody"></div>
+
+  <footer class="drawer-foot" id="drawerFoot"></footer>
+</aside>
+
+<!-- TOASTS -->
+<div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+<!-- LOADING SKELETON OVERLAY -->
+<div class="boot" id="boot" aria-hidden="true">
+  <div class="boot-bar"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

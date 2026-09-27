@@ -1,0 +1,14 @@
+{
+  "name": "maison-verre-console",
+  "version": "1.0.0",
+  "description": "A zero-dependency service console for a restaurant floor: order queue, table map, reservations and service health.",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "python3 -m http.server 8781",
+    "test": "node test/smoke.test.js && node test/reduced-motion.test.js && node test/race.test.js"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
+}
