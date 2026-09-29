@@ -680,6 +680,7 @@
   }
 
   /* ── floor plan ─────────────────────────────────────────── */
+  let lastFloorSummary = '';
   function renderFloor() {
     const host = $('#floor');
     $$('.tbl', host).forEach(n => n.remove());
@@ -713,8 +714,17 @@
     });
 
     const counts = TABLES.reduce((m, t) => (m[t.status] = (m[t.status] || 0) + 1, m), {});
-    $('[data-floor-summary]').textContent =
-      `${counts.occupied || 0} seated, ${counts.available || 0} open, ${counts.reserved || 0} held`;
+    const summary = `${counts.occupied || 0} seated, ${counts.available || 0} open, ${counts.reserved || 0} held`;
+    const summaryNode = $('[data-floor-summary]');
+    if (summaryNode) {
+      if (summaryNode.textContent !== summary && lastFloorSummary !== '' && !firstPaint && !noMotion()) {
+        summaryNode.classList.remove('is-ticking');
+        void summaryNode.offsetWidth;
+        summaryNode.classList.add('is-ticking');
+      }
+      summaryNode.textContent = summary;
+    }
+    lastFloorSummary = summary;
   }
 
   function renderLegend() {

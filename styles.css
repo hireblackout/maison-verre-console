@@ -202,6 +202,14 @@ b { font-weight: 600; }
 .service-live {
   margin-left: auto; font-family: var(--font-mono); font-size: 11px; font-weight: 600;
   letter-spacing: .1em; color: var(--sage);
+  animation: live-breath 3.2s ease-in-out infinite;
+}
+/* the single ambient loop on the page: a slow opacity breath on the
+   LIVE marker, the one element whose entire job is to say the room
+   is live. Everything else animates only when data changes. */
+@keyframes live-breath {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: .55; }
 }
 .service-clock {
   font-family: var(--font-mono); font-size: 25px; font-weight: 500;
@@ -475,7 +483,7 @@ b { font-weight: 600; }
   content: ''; position: absolute; left: 0; top: 6px; bottom: 6px; width: 2px;
   background: var(--tone); border-radius: 0 2px 2px 0;
   transform: scaleY(0); transform-origin: center;
-  transition: transform var(--dur) var(--ease-out);
+  transition: transform var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out);
 }
 .order-row:active { background: var(--ink-750); }
 .order-row.is-open { background: var(--ink-800); }
@@ -508,7 +516,7 @@ b { font-weight: 600; }
 .order-items-note svg { width: 10px; height: 10px; }
 .order-server { font-size: 11.5px; color: var(--ink-2); white-space: nowrap; }
 .elapsed { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 11.5px; color: var(--ink-2); }
-.elapsed-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--tone); flex: none; }
+.elapsed-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--tone); flex: none; transition: background-color 300ms var(--ease-out); }
 
 /* Status pills carry their state three ways already: label colour, tinted
    fill and the ring. A fourth signal in the shape of a bullet on every
@@ -520,6 +528,7 @@ b { font-weight: 600; }
   padding: 3px 9px; border-radius: var(--r-pill);
   font-size: 11px; font-weight: 600; letter-spacing: .01em; white-space: nowrap;
   color: var(--tone, var(--ink-2)); background: color-mix(in srgb, var(--tone, var(--ink-2)) 13%, transparent);
+  transition: color 250ms var(--ease-out), background-color 250ms var(--ease-out), box-shadow 250ms var(--ease-out);
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone, var(--ink-2)) var(--tone-ring, 22%), transparent),
               0 0 0 var(--tone-halo-w, 0px) color-mix(in srgb, var(--tone, var(--ink-2)) var(--tone-halo, 0%), transparent);
 }
@@ -622,6 +631,14 @@ b { font-weight: 600; }
 .tbl--booth { grid-column: span 2; border-radius: var(--r-mark); }
 
 .legend { display: flex; gap: var(--s3); flex-wrap: wrap; }
+/* one-shot color flash when the live floor counts change: the text
+   brightens and settles, so a seating or clearing reads as an event
+   without adding another looping animation to the map */
+[data-floor-summary].is-ticking { animation: summary-flash 600ms var(--ease-out); }
+@keyframes summary-flash {
+  0%   { color: var(--paper); }
+  100% { color: var(--ink-3); }
+}
 .legend-item { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; color: var(--ink-3); }
 .legend-swatch { width: 7px; height: 7px; border-radius: var(--r-mark); background: var(--tone); box-shadow: 0 0 0 1px color-mix(in srgb, var(--tone) 40%, transparent); }
 
