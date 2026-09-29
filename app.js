@@ -6,9 +6,11 @@
 
    Motion note: this file assigns the existing CSS primitives
    (.anim-rise / .anim-fade / .anim-grow, .just-changed,
-   .is-press, .is-holding, .count-pulse, .is-out) but never
-   invents timings of its own. Every duration and curve lives in
-   styles.css so motion can be retuned from one place.
+   .is-holding, .is-bumped, .is-out) but never invents timings
+   of its own. Every duration and curve lives in styles.css so
+   motion can be retuned from one place. Press feedback is not
+   here at all: it is the CSS :active state, which the browser
+   maintains for us on both mouse and touch.
    ═══════════════════════════════════════════════════════════ */
 
 (() => {
@@ -281,7 +283,7 @@
       spark: [11, 14, 19, 21, 26, 31, 38, 42, 48, 55, 61, 66] },
     { label: 'Avg ticket',     value: '$71.96',     delta: '+2.6%',  dir: 'up',   note: '2.4 covers per ticket', tone: 'sage',
       spark: [66.2, 68.4, 67.1, 69.8, 70.4, 69.1, 71.2, 70.8, 72.0, 71.4, 72.6, 71.96] },
-    { label: 'Covers',         value: String(COVERS), delta: '+11.2%', dir: 'up', note: `of ${CAPACITY} seated tonight`, tone: 'peri',
+    { label: 'Covers',         value: String(COVERS), delta: '+11.2%', dir: 'up', note: `of ${CAPACITY} seats`, tone: 'peri',
       spark: [4, 7, 11, 14, 19, 23, 28, 33, 38, 42, 45, 47] },
     { label: 'Table occupancy',value: '46%',        delta: '-4.1%',  dir: 'down', note: '6 of 14 tables', tone: 'copper',
       spark: [70, 74, 78, 81, 69, 64, 58, 52, 49, 47, 46, 46] },
@@ -359,9 +361,9 @@
     if (!node) return;
     const text = String(value);
     if (node.textContent !== text && lastCounts[name] !== undefined && !noMotion()) {
-      node.classList.remove('count-pulse');
+      node.classList.remove('is-bumped');
       void node.offsetWidth;
-      node.classList.add('count-pulse');
+      node.classList.add('is-bumped');
     }
     lastCounts[name] = value;
     node.textContent = text;
@@ -379,7 +381,7 @@
     const dot = $('[data-live="alerts"]');
     if (dot) {
       const n = ALERTS.length;
-      dot.textContent = String(n);
+      paintCount('alerts', n);
       if (n === 0) dot.removeAttribute('data-n'); else dot.dataset.n = String(n);
     }
     const alertBadge = $('.nav-badge--alert');
@@ -404,7 +406,11 @@
       text.appendChild(el('span', 'alert-sub', a.sub));
       b.appendChild(text);
       b.appendChild(el('span', 'alert-n', String(a.n)));
-      b.title = a.act.label;
+      /* the whole alert is the button, so its accessible name has to
+         carry the same three parts the visual does, plus what tapping
+         it will do. A native title tooltip carried the last part but
+         only on hover, and the alerts are usually read, not aimed at. */
+      b.setAttribute('aria-label', `${a.title}. ${a.sub}. ${a.act.label}.`);
       b.addEventListener('click', () => runAlertAction(a));
       host.appendChild(b);
     });
@@ -610,8 +616,6 @@
       row.classList.add('anim-fade');
       row.style.setProperty('--i', Math.min(i, 5));
     }
-    if (o.id === 'A-1041' && firstPaint) row.classList.add('alarm-wiggle');
-
     row.appendChild(el('span', 'ticket-no', '#' + o.id));
 
     const seat = el('span', 'order-table', t ? t.id : 'BAR');
@@ -763,7 +767,11 @@
     host.textContent = '';
 
     const peak = data.bars.reduce((a, b) => (b.v > a.v ? b : a));
-    $('#peakLabel').textContent = `${data.label}, ${money(peak.v)}, ${peak.n} tickets`;
+    /* The range label already says "Peak 7 PM", so this used to read
+       "Peak 7 PM, $5.6k, 79 tickets", which stacked three facts into
+       a slot sized for one. The hour is the fact worth keeping here;
+       the value belongs on the axis. */
+    $('#peakLabel').textContent = `${peak.x} at ${money(peak.v)}`;
 
     const max = Math.max(...data.bars.map(b => b.v)) * 1.08;
     data.bars.forEach((b, i) => {
@@ -1374,19 +1382,6 @@
   /* ── global interactions ─────────────────────────────────── */
   const search = $('#globalSearch');
 
-  function bindPress() {
-    document.addEventListener('pointerdown', e => {
-      const node = e.target.closest('[data-press]');
-      if (!node || noMotion()) return;
-      node.classList.add('is-press');
-    });
-    ['pointerup', 'pointercancel', 'pointerleave'].forEach(ev =>
-      document.addEventListener(ev, e => {
-        const node = e.target.closest('[data-press]');
-        if (node) node.classList.remove('is-press');
-      }, true));
-  }
-
   function bindGlobalKeys() {
     document.addEventListener('keydown', e => {
       const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName);
@@ -1433,9 +1428,15 @@
       });
     });
 
-    $('.icon-btn[aria-label="Notifications"]').addEventListener('click', () => {
-      const first = ALERTS[0];
-      runAlertAction(first);
+    /* the bell is labelled "jump to next alert" and now behaves like
+       it: it takes the highest severity alert rather than whatever
+       happens to sit at index 0, and it says so when the list is
+       clear instead of running an action against undefined. */
+    $('#nextAlert').addEventListener('click', () => {
+      if (!ALERTS.length) { toast('No open alerts', { tone: 'sage', ico: 'info' }); return; }
+      const rank = { flagged: 0, late: 0, warn: 1, info: 2 };
+      const next = ALERTS.slice().sort((a, b) => (rank[a.tone] ?? 3) - (rank[b.tone] ?? 3))[0];
+      runAlertAction(next);
     });
 
     $$('#chartSeg .seg-btn').forEach((b, i) => {
@@ -1472,7 +1473,6 @@
     renderGauges();
 
     paintLive();
-    bindPress();
     bindGlobalKeys();
     bindGlobalWiring();
     setInterval(tickElapsed, 1000);
@@ -1486,11 +1486,29 @@
     }
     requestAnimationFrame(syncPill);
 
+    /* The boot gate used to be a flat 620ms timeout over a shimmer
+       that never reflected anything, which meant a cold start cost a
+       second of theatre before any data appeared. Now the bar fills
+       when the console is actually ready and the overlay lifts as
+       soon as that is true, with a 900ms ceiling so a font that never
+       resolves cannot hold the screen. */
     const boot = $('#boot');
-    setTimeout(() => {
+    const bootBar = boot && $('.boot-bar', boot);
+    let lifted = false;
+    const ready = () => {
+      if (lifted || !boot || !boot.isConnected) return;
+      lifted = true;
       boot.classList.add('is-gone');
-      setTimeout(() => boot.remove(), 600);
-    }, 620);
+      setTimeout(() => boot.remove(), 460);
+    };
+    const fonts = document.fonts && document.fonts.ready
+      ? Promise.resolve(document.fonts.ready).catch(() => {})
+      : Promise.resolve();
+    fonts.then(() => {
+      if (bootBar) bootBar.classList.add('is-ready');
+      requestAnimationFrame(ready);
+    });
+    setTimeout(ready, 900);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

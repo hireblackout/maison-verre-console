@@ -109,11 +109,11 @@
           <input type="search" id="globalSearch" placeholder="Search orders, tables, guests…" autocomplete="off" aria-label="Search">
           <kbd>/</kbd>
         </div>
-        <button class="icon-btn" aria-label="Notifications" data-press>
+        <button class="icon-btn" id="nextAlert" aria-label="Jump to next alert">
           <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2.5a5 5 0 0 0-5 5v3l-1.5 3h13l-1.5-3v-3a5 5 0 0 0-5-5z" stroke-linejoin="round"/><path d="M8 16.5a2 2 0 0 0 4 0" stroke-linecap="round"/></svg>
           <span class="icon-btn-dot" data-live="alerts">0</span>
         </button>
-        <div class="avatar" title="Amara Osei">AO</div>
+        <div class="avatar">AO<span class="vh">Amara Osei</span></div>
       </div>
     </header>
 
@@ -144,8 +144,8 @@
 
         <div class="orders-empty" id="ordersEmpty" hidden>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 7 5.5 3.5h13L21 7M3 7a4.5 4.5 0 0 0 4.5 2.2A4.5 4.5 0 0 0 12 7a4.5 4.5 0 0 0 4.5 2.2A4.5 4.5 0 0 0 21 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <p class="empty-title">No tickets match</p>
-          <p class="empty-sub">Try a different status or clear the search.</p>
+          <p class="empty-title">Nothing in this view</p>
+          <p class="empty-sub">No open tickets match the current status and search.</p>
           <button class="btn btn--ghost btn--sm" data-clear-filters>Clear filters</button>
         </div>
       </section>
@@ -176,7 +176,7 @@
               <h2>Reservations</h2>
               <span class="panel-count" data-live="resTotal">0</span>
             </div>
-            <button class="btn btn--ghost btn--sm" data-press>View book</button>
+            <button class="btn btn--ghost btn--sm">View book</button>
           </div>
           <div class="res-list" id="resList"></div>
         </section>
@@ -193,9 +193,9 @@
             <span class="panel-sub" id="peakLabel">Pending</span>
           </div>
           <div class="seg" id="chartSeg" role="tablist" aria-label="Range">
-            <button class="seg-btn is-active" data-press>Today</button>
-            <button class="seg-btn" data-press>7d</button>
-            <button class="seg-btn" data-press>30d</button>
+            <button class="seg-btn is-active">Today</button>
+            <button class="seg-btn">7d</button>
+            <button class="seg-btn">30d</button>
           </div>
         </div>
         <div class="chart" id="chart"></div>
@@ -234,7 +234,7 @@
       <span class="drawer-ticket" id="drawerTicket">#0000</span>
       <span class="pill" id="drawerStatus">Pending</span>
     </div>
-    <button class="icon-btn" id="drawerClose" aria-label="Close" data-press>
+    <button class="icon-btn" id="drawerClose" aria-label="Close">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m5 5 10 10M15 5 5 15" stroke-linecap="round"/></svg>
     </button>
   </header>
