@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Maison Verre — Service Console</title>
+<title>Maison Verre Service Console</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,7 +15,10 @@
 <div class="shell">
 
   <!-- ─────── SIDEBAR ─────── -->
-  <aside class="sidebar">
+  <!-- The brand mark and the empty-state tray sit on a 24-unit grid and
+     carry a 1.4 stroke so they land at the same optical weight as the
+     20-unit UI glyphs in app.js once scaled. One family, one weight. -->
+<aside class="sidebar">
     <div class="brand">
       <div class="brand-mark" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
@@ -75,7 +78,7 @@
         </div>
         <div class="service-clock" data-clock>18:42:07</div>
         <div class="service-rows">
-          <div class="service-row"><span>Shift</span><b>04:00 PM – 11:30 PM</b></div>
+          <div class="service-row"><span>Shift</span><b>04:00 PM - 11:30 PM</b></div>
           <div class="service-row"><span>Manager</span><b>Amara Osei</b></div>
           <div class="service-row"><span>Covers</span><b><span data-live="covers">0</span> / 96</b></div>
         </div>
@@ -102,7 +105,7 @@
 
       <div class="topbar-right">
         <div class="field-search">
-          <svg class="field-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="9" r="5.5"/><path d="m13.5 13.5 3.5 3.5" stroke-linecap="round"/></svg>
+          <svg class="field-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="9" r="5.5"/><path d="m13.5 13.5 3.5 3.5" stroke-linecap="round"/></svg>
           <input type="search" id="globalSearch" placeholder="Search orders, tables, guests…" autocomplete="off" aria-label="Search">
           <kbd>/</kbd>
         </div>
@@ -140,7 +143,7 @@
         <div class="orders-list" id="ordersList"></div>
 
         <div class="orders-empty" id="ordersEmpty" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 7h18v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 7 5.5 3.5h13L21 7M3 7a4.5 4.5 0 0 0 4.5 2.2A4.5 4.5 0 0 0 12 7a4.5 4.5 0 0 0 4.5 2.2A4.5 4.5 0 0 0 21 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 7 5.5 3.5h13L21 7M3 7a4.5 4.5 0 0 0 4.5 2.2A4.5 4.5 0 0 0 12 7a4.5 4.5 0 0 0 4.5 2.2A4.5 4.5 0 0 0 21 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <p class="empty-title">No tickets match</p>
           <p class="empty-sub">Try a different status or clear the search.</p>
           <button class="btn btn--ghost btn--sm" data-clear-filters>Clear filters</button>
@@ -155,7 +158,7 @@
           <div class="panel-head panel-head--tight">
             <div class="panel-title">
               <h2>Floor</h2>
-              <span class="panel-sub" data-floor-summary>—</span>
+              <span class="panel-sub" data-floor-summary>Pending</span>
             </div>
             <div class="legend" id="legend"></div>
           </div>
@@ -187,7 +190,7 @@
         <div class="panel-head panel-head--tight">
           <div class="panel-title">
             <h2>Net sales by hour</h2>
-            <span class="panel-sub" id="peakLabel">—</span>
+            <span class="panel-sub" id="peakLabel">Pending</span>
           </div>
           <div class="seg" id="chartSeg" role="tablist" aria-label="Range">
             <button class="seg-btn is-active" data-press>Today</button>
@@ -214,11 +217,9 @@
     </div>
 
     <footer class="foot">
-      <span>Maison Verre &middot; Union Wharf</span>
-      <span class="dot-sep" aria-hidden="true"></span>
-      <span>POS sync <b class="ok-text">healthy</b> &middot; 1.2s lag</span>
-      <span class="dot-sep" aria-hidden="true"></span>
-      <span>Last reconciled 18:41:52</span>
+      <span class="foot-cell">Maison Verre, Union Wharf</span>
+      <span class="foot-cell">POS sync <b class="ok-text">healthy</b>, 1.2s lag</span>
+      <span class="foot-cell foot-cell--end">Last reconciled 18:41:52</span>
     </footer>
   </main>
 </div>
@@ -231,10 +232,10 @@
   <header class="drawer-head">
     <div class="drawer-id">
       <span class="drawer-ticket" id="drawerTicket">#0000</span>
-      <span class="pill" id="drawerStatus">—</span>
+      <span class="pill" id="drawerStatus">Pending</span>
     </div>
     <button class="icon-btn" id="drawerClose" aria-label="Close" data-press>
-      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m5 5 10 10M15 5 5 15" stroke-linecap="round"/></svg>
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m5 5 10 10M15 5 5 15" stroke-linecap="round"/></svg>
     </button>
   </header>
 

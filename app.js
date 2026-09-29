@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   MAISON VERRE — SERVICE CONSOLE
+   MAISON VERRE, SERVICE CONSOLE
    Vanilla ES2020. No dependencies, no build step: this file is
    loaded directly by index.html and everything below runs at
    parse time on a DOM that is already fully written out.
@@ -36,6 +36,16 @@
     return f;
   };
 
+  /* ── icon family ─────────────────────────────────────────────
+     The usual rule is to install an icon library. This console is
+     deliberately zero-dependency and loads straight off the filesystem
+     with no build step, so a package would break the thing the project
+     is actually for. The exception buys one constraint in exchange:
+     a single 20-unit grid, a single stroke weight, one path table for
+     every glyph in the runtime. Nothing here hand-draws an icon that
+     already exists in ICONS, and nothing adds a second stroke width.
+     The two glyphs on a 24-unit grid (the brand mark, the empty-state
+     tray) are documented as such in index.html. */
   const ICONS = {
     chevron: ['M7.5 4.5 12 10l-4.5 5.5'],
     warn:    ['M10 3 18 16.5H2z', 'M10 7.8v3.3', 'M10 13.6v.2'],
@@ -60,7 +70,7 @@
   function icon(name, attrs) {
     const svg = svgEl('svg', {
       viewBox: '0 0 20 20', fill: 'none', stroke: 'currentColor',
-      'stroke-width': '1.6', 'stroke-linecap': 'round', 'stroke-linejoin': 'round',
+      'stroke-width': '1.5', 'stroke-linecap': 'round', 'stroke-linejoin': 'round',
     });
     for (const d of (ICONS[name] || [])) svg.appendChild(svgEl('path', Object.assign({ d }, attrs)));
     return svg;
@@ -95,7 +105,10 @@
   const noMotion = () => reduceMotion.matches;
   const wait = (ms) => new Promise(r => setTimeout(r, noMotion() ? 0 : ms));
 
-  /* ── seed data ──────────────────────────────────────────── */
+  /* ── seed data ────────────────────────────────────────────── */
+  /* Everything below is MOCK data for the prototype: the figures are
+     illustrative, not measured. Anything derived from it (forecast,
+     covers, ticket times) inherits that status. */
   const BOOT = Date.now();
   const ago = m => BOOT - m * 60000;
 
@@ -170,31 +183,31 @@
     { id: 'A-1040', tableId: 'T8',  server: SERVERS[2], status: 'ready',  placed: 8,  source: 'Dine-in',
       items: [line('burrata', 2), line('ribeye', 2), line('seabass', 2), line('chicory', 1), line('spuds', 2)] },
     { id: 'A-1041', tableId: 'T4',  server: SERVERS[3], status: 'prep',   placed: 24, source: 'Dine-in', flag: true,
-      note: 'Fire the ribeye second — guest has a 21:00 theatre slot.',
+      note: 'Fire the ribeye second. Guest has a 21:00 theatre slot.',
       items: [line('cauli', 1), line('ribeye', 1), line('seabass', 1)] },
     { id: 'A-1042', tableId: 'B1',  server: SERVERS[1], status: 'prep',   placed: 19, source: 'Dine-in',
-      note: 'Nut allergy on cover 2 — kitchen notified.',
+      note: 'Nut allergy on cover 2, kitchen notified.',
       items: [line('burrata', 1), line('tartare', 1), line('spuds', 1)] },
     { id: 'A-1043', tableId: 'T10', server: SERVERS[4], status: 'new',    placed: 2,  source: 'Dine-in',
       items: [line('bread', 1), line('scallops', 1), line('gem', 1)] },
     { id: 'A-1044', tableId: null, server: SERVERS[0], status: 'new',    placed: 1,  source: 'Bar',
       items: [line('bread', 1), line('chicory', 1)] },
     { id: 'A-1045', tableId: null, server: SERVERS[2], status: 'hold',   placed: 16, source: 'Bar', flag: true,
-      note: 'Holding on a shellfish substitution — chef at the pass.',
+      note: 'Holding on a shellfish substitution, chef at the pass.',
       items: [line('burrata', 1), line('smduck', 1), line('affogato', 1)] },
     { id: 'A-1046', tableId: null, server: SERVERS[1], status: 'new',    placed: 0,  source: 'Bar',
       items: [line('bread', 1), line('duck', 1)] },
   ].map(o => ({ ...o, placed: ago(o.placed), mins: o.placed, flag: !!o.flag }));
 
   const RESERVATIONS = [
-    { id: 'R-01', time: '18:45', name: 'Kwan',         party: 2, status: 'confirmed', tableId: null,  note: 'Anniversary — quiet corner if possible' },
+    { id: 'R-01', time: '18:45', name: 'Kwan',         party: 2, status: 'confirmed', tableId: null,  note: 'Anniversary, quiet corner if possible' },
     { id: 'R-02', time: '19:00', name: 'Aldridge',     party: 4, status: 'confirmed', tableId: 'T3',  note: null },
     { id: 'R-03', time: '19:15', name: 'Oyelaran',     party: 5, status: 'pending',   tableId: 'T7',  note: 'Waiting on a confirmation call' },
     { id: 'R-04', time: '19:30', name: 'Ferreira',     party: 2, status: 'confirmed', tableId: null,  note: 'Regulars, no seating preference' },
     { id: 'R-05', time: '20:00', name: 'Nakamura',     party: 4, status: 'confirmed', tableId: 'B3',  note: null },
     { id: 'R-06', time: '20:30', name: 'Delacroix',    party: 6, status: 'confirmed', tableId: 'T7',  note: 'Prix fixe menu, pre-ordered' },
     { id: 'R-07', time: '21:00', name: 'Bhatt',        party: 2, status: 'no-show',   tableId: null,  note: 'Left a voicemail at 21:12' },
-    { id: 'R-08', time: '21:15', name: 'Lindqvist',    party: 8, status: 'confirmed', tableId: null,  note: 'Birthday — candle with the dessert' },
+    { id: 'R-08', time: '21:15', name: 'Lindqvist',    party: 8, status: 'confirmed', tableId: null,  note: 'Birthday, candle with the dessert' },
     { id: 'R-09', time: '21:45', name: 'Amari',        party: 3, status: 'confirmed', tableId: null,  note: null },
   ];
 
@@ -231,12 +244,12 @@
   };
 
   const TOP_ITEMS = [
-    { name: 'Dry-aged ribeye',       sub: '$46 · mains',        units: 46 },
-    { name: 'Sourdough, butter',    sub: '$7 · bread',         units: 44 },
-    { name: 'Espresso affogato',    sub: '$8 · dessert',       units: 41 },
-    { name: 'Burrata, blood orange',sub: '$15 · starter',      units: 33 },
-    { name: 'Seared scallops',      sub: '$22 · starter',      units: 28 },
-    { name: 'Burnt basque cheesecake', sub: '$11 · dessert',  units: 26 },
+    { name: 'Dry-aged ribeye',       sub: '$46, mains',        units: 46 },
+    { name: 'Sourdough, butter',    sub: '$7, bread',         units: 44 },
+    { name: 'Espresso affogato',    sub: '$8, dessert',       units: 41 },
+    { name: 'Burrata, blood orange',sub: '$15, starter',      units: 33 },
+    { name: 'Seared scallops',      sub: '$22, starter',      units: 28 },
+    { name: 'Burnt basque cheesecake', sub: '$11, dessert',  units: 26 },
   ];
 
   const GAUGES = [
@@ -306,7 +319,7 @@
   const orderOn     = t => orderById(t.orderId);
   const minsSince   = o => (Date.now() - o.placed) / 60000;
   /* The 20-minute threshold only judges a ticket that is still in
-     play. A ticket that was served an hour ago is not "late" — it is
+     play. A ticket that was served an hour ago is not "late", it is
      finished, and counting it would paint the whole served history
      vermilion and make the Flagged filter meaningless. */
   const isFlagged   = o => o.flag || (o.status !== 'served' && minsSince(o) >= 20);
@@ -404,7 +417,7 @@
     } else if (a.act.type === 'table') {
       openDrawer('table', a.act.value);
     } else {
-      toast('Menu board opened — 3 items flagged 86', { tone: 'peri', ico: 'info' });
+      toast('Menu board opened, 3 items flagged 86', { tone: 'peri', ico: 'info' });
     }
   }
 
@@ -688,7 +701,7 @@
 
     const counts = TABLES.reduce((m, t) => (m[t.status] = (m[t.status] || 0) + 1, m), {});
     $('[data-floor-summary]').textContent =
-      `${counts.occupied || 0} seated · ${counts.available || 0} open · ${counts.reserved || 0} held`;
+      `${counts.occupied || 0} seated, ${counts.available || 0} open, ${counts.reserved || 0} held`;
   }
 
   function renderLegend() {
@@ -750,7 +763,7 @@
     host.textContent = '';
 
     const peak = data.bars.reduce((a, b) => (b.v > a.v ? b : a));
-    $('#peakLabel').textContent = `${data.label} · ${money(peak.v)} · ${peak.n} tickets`;
+    $('#peakLabel').textContent = `${data.label}, ${money(peak.v)}, ${peak.n} tickets`;
 
     const max = Math.max(...data.bars.map(b => b.v)) * 1.08;
     data.bars.forEach((b, i) => {
@@ -765,7 +778,7 @@
       col.appendChild(track);
       col.appendChild(el('span', 'bar-label', b.x));
 
-      const tip = el('span', 'bar-tip', `${money(b.v)} · ${b.n} tickets`);
+      const tip = el('span', 'bar-tip', `${money(b.v)}, ${b.n} tickets`);
       tip.style.left = '50%';
       tip.style.bottom = `calc(${pct.toFixed(1)}% + 14px)`;
       col.appendChild(tip);
@@ -939,7 +952,7 @@
     const s1 = el('div', 'dr-section');
     s1.appendChild(sectionHead('Ticket'));
     s1.appendChild(metaGrid([
-      ['Table', t ? `${t.id} · ${t.zone}` : 'Bar'],
+      ['Table', t ? `${t.id}, ${t.zone}` : 'Bar'],
       ['Server', o.server],
       ['Placed', new Date(o.placed).toTimeString().slice(0, 5)],
       ['Elapsed', fmtElapsed(mins)],
@@ -1042,7 +1055,7 @@
       rail.appendChild(el('span', 'tl-dot'));
       s.appendChild(rail);
       s.appendChild(el('span', 'tl-name', name));
-      s.appendChild(el('span', 'tl-time', when ? new Date(when).toTimeString().slice(0, 5) : '—'));
+      s.appendChild(el('span', 'tl-time', when ? new Date(when).toTimeString().slice(0, 5) : 'Not yet'));
       t.appendChild(s);
     });
     return t;
@@ -1068,13 +1081,13 @@
     s1.appendChild(metaGrid([
       ['Seats', String(t.seats)],
       ['Zone', t.zone],
-      ['Seated for', t.status === 'occupied' ? fmtElapsed(mins) : '—'],
-      ['Linked ticket', o ? '#' + o.id : (t.resId && resById(t.resId) ? 'Held for ' + resById(t.resId).name : '—')],
+      ['Seated for', t.status === 'occupied' ? fmtElapsed(mins) : 'Not seated'],
+      ['Linked ticket', o ? '#' + o.id : (t.resId && resById(t.resId) ? 'Held for ' + resById(t.resId).name : 'None')],
     ]));
     if (t.status === 'cleaning') s1.appendChild(noteBlock('Dirty since the last party left. Mark clean to release the table to the book.'));
     if (t.resId) {
       const r = resById(t.resId);
-      if (r) s1.appendChild(noteBlock(`${r.time} · ${r.name} · party of ${r.party}${r.note ? ' — ' + r.note : ''}`));
+      if (r) s1.appendChild(noteBlock(`${r.time}, ${r.name}, party of ${r.party}${r.note ? '. ' + r.note : ''}`));
     }    body.appendChild(s1);
 
     if (o) {
@@ -1122,7 +1135,7 @@
         t.flag = false;
         afterMutation(null);
         flashTable(t);
-        toast(`Table ${t.id} seated — walk-in cover`, { tone: 'brass', ico: 'seat' });
+        toast(`Table ${t.id} seated, walk-in cover`, { tone: 'brass', ico: 'seat' });
         renderDrawer();
       });
       foot.appendChild(b);
@@ -1173,11 +1186,11 @@
       ['Party', String(r.party)],
       ['Table', r.tableId || 'Unassigned'],
       ['Arrives', relTime(r.time)],
-      ['Zone', t ? t.zone : '—'],
+      ['Zone', t ? t.zone : 'Unassigned'],
       ['Status', r.status],
     ]));
     if (r.note) s1.appendChild(noteBlock(r.note));
-    if (r.status === 'no-show') s1.appendChild(noteBlock('Marked as a no-show. The table is being held by the book — release it if nobody arrives.'));
+    if (r.status === 'no-show') s1.appendChild(noteBlock('Marked as a no-show. The table is still held by the book, release it if nobody arrives.'));
     body.appendChild(s1);
 
     const foot = $('#drawerFoot');
@@ -1238,7 +1251,7 @@
     TABLES.forEach(t => { if (t.orderId === o.id) { t.orderId = null; t.status = 'cleaning'; } });
     if (state.drawer && state.drawer.id === o.id) closeDrawer();
     afterMutation(null);
-    toast(`#${o.id} voided · table sent for clearing`, { tone: 'vermilion', ico: 'ban' });
+    toast(`#${o.id} voided, table sent for clearing`, { tone: 'vermilion', ico: 'ban' });
   }
 
   function setTableStatus(t, status, message) {
@@ -1246,7 +1259,7 @@
     t.since = 0;
     if (status !== 'occupied') t.flag = false;
     afterMutation(null);
-    flashTable(t);   // after the re-render — renderFloor() replaces every tile,
+    flashTable(t);   // after the re-render: renderFloor() replaces every tile,
                      // so flashing first would flash a node that no longer exists
     toast(message, { tone: 'brass', ico: 'broom' });
     renderDrawer();
@@ -1264,7 +1277,7 @@
     }
     afterMutation(null);
     if (t) flashTable(t);
-    toast(`${r.name} seated${t ? ' at ' + t.id : ' — no table free'}`, { tone: 'sage', ico: 'seat' });
+    toast(`${r.name} seated${t ? ' at ' + t.id : ', no table free'}`, { tone: 'sage', ico: 'seat' });
     renderReservations();
     renderDrawer();
   }
@@ -1288,7 +1301,7 @@
     if (state.drawer) renderDrawer();
   }
 
-  /* Hold to confirm — the fill only commits if the pointer stays down
+  /* Hold to confirm: the fill only commits if the pointer stays down
      for the full duration. Releasing early springs the fill back. */
   function bindHold(node, onComplete) {
     let timer = null;
@@ -1312,7 +1325,7 @@
     node.addEventListener('pointerdown', e => {
       if (e.button != null && e.button !== 0) return;
       // Reduced motion removes the 600ms fill, so fall back to a plain
-      // deliberate click — the hold is a motion affordance, not the
+      // deliberate click: the hold is a motion affordance, not the
       // confirmation itself, and it must not become unreachable.
       if (noMotion()) { onComplete(); done = true; return; }
       node.classList.add('is-holding');
