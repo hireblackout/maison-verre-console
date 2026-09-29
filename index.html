@@ -34,28 +34,28 @@
 
     <nav class="nav" aria-label="Primary">
       <span class="nav-eyebrow">Floor</span>
-      <a class="nav-item is-active" href="#" data-nav>
+      <a class="nav-item is-active" href="#" data-nav data-target="overview">
         <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="2.5" width="6" height="6" rx="1.2"/><rect x="11.5" y="2.5" width="6" height="6" rx="1.2"/><rect x="2.5" y="11.5" width="6" height="6" rx="1.2"/><rect x="11.5" y="11.5" width="6" height="6" rx="1.2"/></svg>
         <span>Overview</span>
         <span class="nav-badge" data-live="orders">0</span>
       </a>
-      <a class="nav-item" href="#" data-nav>
+      <a class="nav-item" href="#" data-nav data-target="orders">
         <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h14M3 10h14M3 14h9" stroke-linecap="round"/></svg>
         <span>Orders</span>
         <span class="nav-badge nav-badge--alert" data-live="flagged">0</span>
       </a>
-      <a class="nav-item" href="#" data-nav>
+      <a class="nav-item" href="#" data-nav data-target="floor">
         <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="2.5" width="15" height="15" rx="2"/><path d="M2.5 12.5h15M7.5 2.5v15" stroke-linecap="round"/></svg>
         <span>Floor &amp; Tables</span>
       </a>
-      <a class="nav-item" href="#" data-nav>
+      <a class="nav-item" href="#" data-nav data-target="reservations">
         <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2.5" y="4" width="15" height="13.5" rx="2"/><path d="M2.5 8h15M6 2.5v3M14 2.5v3" stroke-linecap="round"/></svg>
         <span>Reservations</span>
         <span class="nav-badge" data-live="res">0</span>
       </a>
 
       <span class="nav-eyebrow">Insight</span>
-      <a class="nav-item" href="#" data-nav>
+      <a class="nav-item" href="#" data-nav data-target="metrics">
         <svg class="nav-ico" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 16.5V9M8 16.5V4M13 16.5v-5M18 16.5H2" stroke-linecap="round"/></svg>
         <span>Metrics</span>
       </a>
@@ -99,7 +99,7 @@
         <p class="page-sub">
           <span data-today>Thursday, 12 June</span>
           <span class="dot-sep" aria-hidden="true"></span>
-          <span>Forecast <b class="ink-bright">$18.4k</b> at 82%</span>
+          <span>Forecast <b class="ink-bright">$18.4k</b>, 82% confidence</span>
         </p>
       </div>
 

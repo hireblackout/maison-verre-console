@@ -397,8 +397,9 @@
     const host = $('#alerts');
     host.textContent = '';
     ALERTS.forEach((a, i) => {
+      const toneVar = { critical: 'vermilion', warn: 'copper', info: 'peri' }[a.tone] || 'brass';
       const b = el('button', `alert alert--${a.tone} anim-rise`);
-      b.style.setProperty('--tone', `var(--${a.tone})`);
+      b.style.setProperty('--tone', `var(--${toneVar})`);
       b.style.setProperty('--i', i);
       b.appendChild(el('span', 'alert-ico')).appendChild(icon(a.ico));
       const text = el('span', 'alert-text');
@@ -695,10 +696,18 @@
       b.style.setProperty('--i', i + 2);
       b.appendChild(el('span', 'tbl-id', t.id));
       b.appendChild(el('span', 'tbl-seats', t.seats + ' seats'));
-      b.appendChild(el('span', 'tbl-meta', t.zone));
+      /* The third line is the live people state, not the zone: a map
+         should answer "who is here and for how long" at a glance.
+         The zone stays in the accessible name for screen readers. */
+      const held = t.resId ? resById(t.resId) : null;
+      const live = t.status === 'occupied' ? `seated ${fmtElapsed(t.since)}`
+        : t.status === 'reserved' ? (held ? `held ${held.time}` : 'held')
+        : t.status === 'cleaning' ? 'clearing'
+        : 'open';
+      b.appendChild(el('span', 'tbl-meta', live));
       if (t.flag) b.appendChild(el('span', 'tbl-flag'));
       if (linkedId === t.id) b.classList.add('is-linked');
-      b.setAttribute('aria-label', `Table ${t.id}, ${t.seats} seats, ${t.status}${t.flag ? ', needs attention' : ''}`);
+      b.setAttribute('aria-label', `Table ${t.id}, ${t.seats} seats, ${t.zone}, ${t.status}, ${live}${t.flag ? ', needs attention' : ''}`);
       b.addEventListener('click', () => openDrawer('table', t.id));
       host.appendChild(b);
     });
@@ -1418,13 +1427,26 @@
       renderOrders();
     });
 
+    const NAV_TARGETS = {
+      overview: '.main', orders: '.panel--orders', floor: '.panel--floor',
+      reservations: '.panel--res', metrics: '.band',
+    };
     $$('[data-nav]').forEach(a => {
       a.addEventListener('click', e => {
         e.preventDefault();
         $$('[data-nav]').forEach(x => x.classList.remove('is-active'));
         a.classList.add('is-active');
-        const label = a.querySelector('span:not(.nav-badge)');
-        toast(`${label ? label.textContent : 'Section'} view is not part of this prototype`, { tone: 'brass', ico: 'info' });
+        const target = a.dataset.target ? $(NAV_TARGETS[a.dataset.target]) : null;
+        if (target) {
+          if (a.dataset.target === 'overview') {
+            const main = $('.main');
+            if (main) main.scrollTo({ top: 0, behavior: noMotion() ? 'auto' : 'smooth' });
+          } else {
+            target.scrollIntoView({ block: 'start', behavior: noMotion() ? 'auto' : 'smooth' });
+          }
+          return;
+        }
+        toast("Staff and Menu are outside tonight's service view", { tone: 'brass', ico: 'info' });
       });
     });
 
@@ -1434,7 +1456,7 @@
        clear instead of running an action against undefined. */
     $('#nextAlert').addEventListener('click', () => {
       if (!ALERTS.length) { toast('No open alerts', { tone: 'sage', ico: 'info' }); return; }
-      const rank = { flagged: 0, late: 0, warn: 1, info: 2 };
+      const rank = { critical: 0, flagged: 0, late: 0, warn: 1, info: 2 };
       const next = ALERTS.slice().sort((a, b) => (rank[a.tone] ?? 3) - (rank[b.tone] ?? 3))[0];
       runAlertAction(next);
     });

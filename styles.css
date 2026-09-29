@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════
    MAISON VERRE, SERVICE CONSOLE
-   Design language: "warm ink". Restaurant ops run in dim rooms
-   at dinner service, so the surface is a warm near-black (not the
-   usual blue-slate) with brass as the single brand accent and a
-   severity ramp that walks green → brass → copper → vermilion.
+   Design language: "neutral ink". Restaurant ops run in dim rooms
+   at dinner service, so the surfaces are neutral graphite darks with
+   warm paper text, brass as the single brand accent, and green kept
+   strictly for live or successful states.
    Type is one geometric grotesque plus a mono for every figure.
    Hierarchy comes from weight and colour, never from scale alone.
    ═══════════════════════════════════════════════════════════ */
@@ -14,14 +14,14 @@
      instead of flashing a light UA surface through the console */
   color-scheme: dark;
 
-  /* bottle-glass surface ramp */
-  --ink-1000: #040706;
-  --ink-950:  #0a0f0d;
-  --ink-900:  #101614;
-  --ink-850:  #161d1a;
-  --ink-800:  #1c2420;
-  --ink-750:  #232c28;
-  --ink-700:  #2b3530;
+  /* neutral graphite surface ramp: no green cast */
+  --ink-1000: #060809;
+  --ink-950:  #0b0e0f;
+  --ink-900:  #121516;
+  --ink-850:  #181c1d;
+  --ink-800:  #202526;
+  --ink-750:  #292f30;
+  --ink-700:  #343b3c;
   --line:     rgba(245, 241, 234, 0.07);
   --line-mid: rgba(245, 241, 234, 0.11);
   --line-hi:  rgba(245, 241, 234, 0.18);
@@ -196,13 +196,7 @@ b { font-weight: 600; }
 }
 .live-dot::after {
   content: ''; position: absolute; inset: -3px; border-radius: 50%;
-  border: 1px solid var(--sage); opacity: 0;
-  animation: pulse-ring 2.4s var(--ease-out) infinite;
-}
-@keyframes pulse-ring {
-  0%   { transform: scale(.6); opacity: .7; }
-  70%  { transform: scale(1.9); opacity: 0; }
-  100% { transform: scale(1.9); opacity: 0; }
+  border: 1px solid color-mix(in srgb, var(--sage) 55%, transparent);
 }
 .service-label { font-size: 11.5px; font-weight: 500; color: var(--ink-1); }
 .service-live {
@@ -379,6 +373,7 @@ b { font-weight: 600; }
 }
 .kpi {
   position: relative; overflow: hidden;
+  display: flex; flex-direction: column;
   padding: var(--s4) var(--s4) 12px;
   background: var(--ink-850); border: 1px solid var(--line);
   border-radius: var(--r-panel);
@@ -415,7 +410,7 @@ b { font-weight: 600; }
 .kpi-delta--down { color: var(--ink-3); }
 .kpi-delta--flat { color: var(--ink-3); }
 .kpi-note { font-size: 11px; color: var(--ink-3); }
-.kpi-spark { display: block; width: 100%; height: 26px; overflow: visible; }
+.kpi-spark { display: block; width: 100%; height: 26px; margin-top: 10px; overflow: visible; }
 .kpi-spark path.line {
   fill: none; stroke: var(--kpi-tone, var(--brass)); stroke-width: 1.5;
   stroke-linecap: round; stroke-linejoin: round;
@@ -423,8 +418,8 @@ b { font-weight: 600; }
 }
 .kpi-spark path.area { fill: var(--kpi-tone, var(--brass)); opacity: .1; }
 .kpi-spark circle.head { fill: var(--kpi-tone, var(--brass)); opacity: 0; }
-.kpi-spark.is-drawn path.line { transition: stroke-dashoffset 900ms var(--ease-out); stroke-dashoffset: 0; }
-.kpi-spark.is-drawn circle.head { transition: opacity 260ms var(--ease-out) 620ms; opacity: 1; }
+.kpi-spark.is-drawn path.line { transition: stroke-dashoffset 720ms var(--ease-out); stroke-dashoffset: 0; }
+.kpi-spark.is-drawn circle.head { transition: opacity 240ms var(--ease-out) 420ms; opacity: 1; }
 
 /* ── SPLIT ──────────────────────────────────────────────── */
 .split { display: grid; grid-template-columns: minmax(0, 1fr) 372px; gap: var(--s4); align-items: start; }
@@ -489,7 +484,7 @@ b { font-weight: 600; }
 .order-row.is-selected::before { transform: scaleY(1); }
 
 /* status flash after an optimistic update */
-.order-row.just-changed { animation: row-flash 900ms var(--ease-out); }
+.order-row.just-changed { animation: row-flash 520ms var(--ease-out); }
 @keyframes row-flash {
   0%   { background: color-mix(in srgb, var(--tone) 20%, var(--ink-850)); }
   100% { background: transparent; }
@@ -582,14 +577,15 @@ b { font-weight: 600; }
 .tbl {
   position: relative; display: grid; place-content: center; gap: 2px;
   padding: var(--s1);
-  background: color-mix(in srgb, var(--tone, var(--ink-800)) 9%, var(--ink-800));
+  background: color-mix(in srgb, var(--tone, var(--ink-800)) 7%, var(--ink-800));
   border: 1px solid var(--line);
   border-radius: var(--r-ctl);
-  transition: transform var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out), background var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+  transition: border-color var(--dur) var(--ease-out), background var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
 }
 .tbl::after {
   content: ''; position: absolute; inset: -1px; border-radius: inherit;
-  box-shadow: inset 0 0 0 1px var(--tone); opacity: .5; pointer-events: none;
+  box-shadow: inset 0 0 0 1px var(--tone); opacity: .38; pointer-events: none;
 }
 /* The floor plan is a map. Tiles may light up on hover but they must
    never translate or scale: if a table moves, the spatial model the
@@ -597,7 +593,7 @@ b { font-weight: 600; }
 .tbl:active { border-color: var(--brass); }
 /* one-shot tone flash when a tile changes state: a Crossfade of
    colour, not a shape Morph, so the tile keeps its identity */
-.tbl.just-changed { animation: tbl-flash 620ms var(--ease-out); }
+.tbl.just-changed { animation: tbl-flash 480ms var(--ease-out); }
 @keyframes tbl-flash {
   0%   { background-color: color-mix(in srgb, var(--tone) 36%, var(--ink-800)); }
   100% { background-color: color-mix(in srgb, var(--tone) 9%, var(--ink-800)); }
@@ -608,6 +604,8 @@ b { font-weight: 600; }
    two-top round table is a 50px circle and 11px copy clips inside it.
    The table ID, the part that actually matters, stays at 11px. */
 .tbl-meta { font-size: 10px; color: var(--ink-2); text-align: center; white-space: nowrap; }
+.tbl[data-tone="occupied"] .tbl-meta { color: var(--paper); font-weight: 600; }
+.tbl[data-tone="reserved"] .tbl-meta { color: var(--ink-1); }
 .tbl-seats { font-family: var(--font-mono); font-size: 10px; color: var(--ink-2); text-align: center; }
 .tbl-flag {
   position: absolute; top: 4px; right: 4px; width: 5px; height: 5px;
@@ -615,8 +613,7 @@ b { font-weight: 600; }
 }
 .tbl-flag::after {
   content: ''; position: absolute; inset: -3px; border-radius: 50%;
-  border: 1px solid var(--vermilion);
-  animation: pulse-ring 1.9s var(--ease-out) infinite;
+  border: 1px solid color-mix(in srgb, var(--vermilion) 55%, transparent);
 }
 .tbl--r2  { grid-column: span 1; border-radius: 50%; aspect-ratio: 1; }
 .tbl--r4  { grid-column: span 2; }
@@ -724,7 +721,7 @@ b { font-weight: 600; }
 .gauge-fill {
   position: absolute; left: 0; top: -1px; height: 3px; border-radius: var(--r-mark);
   background: var(--tone, var(--brass)); transform-origin: left center;
-  transition: transform 800ms var(--ease-out);
+  transition: transform 600ms var(--ease-out);
 }
 .gauge-mark {
   position: absolute; top: -5px; bottom: -3px; width: 1px;
@@ -747,7 +744,7 @@ b { font-weight: 600; }
 /* ── DRAWER ─────────────────────────────────────────────── */
 .scrim {
   position: fixed; inset: 0; z-index: 40;
-  background: rgba(8,6,5,.62);
+  background: rgba(4,6,7,.62);
   backdrop-filter: blur(2px);
   opacity: 0;
   transition: opacity var(--dur-slow) var(--ease-out);
@@ -755,7 +752,7 @@ b { font-weight: 600; }
 .scrim.is-in { opacity: 1; }
 
 @media (prefers-reduced-transparency: reduce) {
-  .scrim { backdrop-filter: none; background: rgba(8, 6, 5, .82); }
+  .scrim { backdrop-filter: none; background: rgba(4, 6, 7, .82); }
 }
 
 .drawer {
@@ -769,7 +766,12 @@ b { font-weight: 600; }
   transition: transform var(--dur-slow) var(--ease-out);
 }
 .drawer.is-in { transform: translateX(0); }
-.drawer-grip { display: none; }
+.drawer-grip {
+  display: none;
+  width: 36px; height: 4px; margin: 8px auto 0;
+  border-radius: var(--r-pill);
+  background: var(--line-hi);
+}
 
 .drawer-head {
   display: flex; align-items: center; justify-content: space-between; gap: var(--s4);
@@ -925,12 +927,14 @@ b { font-weight: 600; }
 .anim-slide { animation: slide-x var(--dur-slow) var(--ease-out) both; animation-delay: calc(var(--i, 0) * 26ms); }
 .anim-fade { animation: fade var(--dur-slow) var(--ease-out) both; animation-delay: calc(var(--i, 0) * 34ms); }
 .anim-pop { animation: pop var(--dur-slow) var(--ease-out) both; }
-.anim-grow { animation: grow-y 620ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 22ms); transform-origin: bottom center; }
+.anim-grow { animation: grow-y 340ms var(--ease-out) both; animation-delay: calc(var(--i, 0) * 18ms); transform-origin: bottom center; }
 
 /* toast stack lives in the bottom-right corner, so it enters from
-   the right: Slide in with a touch of scale, not a bare Scale in */
+   the right: Slide in with a touch of scale, not a bare Scale in.
+   Fill is backwards, not both, so the entrance keyframe releases the
+   element when it completes and the exit transition can take over. */
 .toast {
-  animation: toast-in 280ms var(--ease-out) both;
+  animation: toast-in 280ms var(--ease-out) backwards;
   transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out);
 }
 .toast.is-out { opacity: 0; transform: translateX(10px) scale(.98); }
@@ -991,7 +995,6 @@ b { font-weight: 600; }
     opacity: 1 !important;
     transform: none !important;
   }
-  .live-dot::after, .tbl-flag::after { display: none; }
   /* the boot bar is a progress read-out, not decoration, so it keeps
      its fill; it just stops easing */
   .boot-bar::after { transition: none; }
@@ -1108,6 +1111,13 @@ b { font-weight: 600; }
 
   .shell { height: auto; min-height: 100dvh; }
   .main { overflow: visible; }
+
+  html, body { height: auto; }
+  body { overflow-x: hidden; overflow-y: auto; }
+  .sidebar { position: sticky; top: 0; z-index: 30; }
+
+  .band { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .panel--chart { grid-column: 1 / -1; }
 }
 
 /* ── <= 900px: the ticket table becomes cards ───────────────
@@ -1135,15 +1145,19 @@ b { font-weight: 600; }
   .order-row > .order-table { grid-area: meta; justify-self: start; }
   .order-row > .order-items { grid-area: items; }
   .order-row > .order-server{ grid-area: server; }
-  .order-row > .order-clock { grid-area: elapsed; justify-self: end; }
-  .order-row > .order-status{ grid-area: status; justify-self: end; }
+  .order-row > .elapsed { grid-area: elapsed; justify-self: end; }
+  .order-row > .pill { grid-area: status; justify-self: end; }
   .order-row > .row-chevron { display: none; }
 
   .split { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* ── <= 760px: KPI 3 across, drawer becomes a sheet ────────── */
+/* ── <= 760px: KPI pairs, one-column metrics, sheet drawer ── */
 @media (max-width: 760px) {
+  .band { grid-template-columns: minmax(0, 1fr); }
+  .floor { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 52px; }
+  .floor-fixture--pass { grid-column: 1 / 3; }
+  .floor-fixture--host { grid-column: 3 / -1; }
   .kpi-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   /* the third tile in a 2-up row is left half width; let it span
      so the strip never ends on a ragged hole */
@@ -1163,6 +1177,7 @@ b { font-weight: 600; }
     transform: translateY(100%);
   }
   .drawer-grip { display: block; }
+  .drawer.is-in { transform: translateY(0); }
 }
 
 /* ── <= 560px: the phone case ──────────────────────────────
@@ -1183,7 +1198,16 @@ b { font-weight: 600; }
 
   .order-row { padding: var(--s4); }
   .alert { padding: var(--s3) var(--s4); }
-  .alerts { flex-direction: column; }
+  .alerts { grid-template-columns: minmax(0, 1fr); }
+
+  .foot { grid-template-columns: minmax(0, 1fr); gap: var(--s2); }
+  .foot-cell + .foot-cell {
+    padding-left: 0; border-left: 0;
+    padding-top: var(--s2); border-top: 1px solid var(--line);
+  }
+
+  .toasts { left: var(--s4); right: var(--s4); }
+  .toast { width: 100%; min-width: 0; max-width: none; }
 }
 
 /* ── short viewports: the floor map is the first thing to give ──
@@ -1201,7 +1225,9 @@ b { font-weight: 600; }
    thumb while holding a notepad in the other hand. The queue rows
    already clear this; the icon buttons and chips do not. */
 @media (pointer: coarse) {
-  .icon-btn, .icon-btn--ghost { min-width: 40px; min-height: 40px; }
+  .icon-btn { min-width: 40px; min-height: 40px; }
+  .btn { min-height: 40px; }
+  .btn--sm { min-height: 36px; }
   .seg-btn { min-height: 36px; }
   .chip { min-height: 34px; }
   .chip-rail { padding: 4px; }
@@ -1222,12 +1248,19 @@ b { font-weight: 600; }
   .tbl--r2, .tbl--r4, .tbl--r6, .tbl--r8 { grid-column: span 1; }
 }
 
-/* The chip rail scrolls horizontally, so the last chip used to sit
-   under the panel edge with no visual cue that it continued. A
-   fade on the trailing edge is the cue, and it is removed once
-   there is nothing left to scroll. */
+/* The chip rail scrolls horizontally, so a sticky edge cue marks the
+   trailing side while the rail can still move. It never intercepts
+   taps; it only signals that more chips sit past the panel edge. */
 .chip-rail { overflow-x: auto; scrollbar-width: none; }
 .chip-rail::-webkit-scrollbar { display: none; }
+@media (max-width: 900px) {
+  .chip-rail::after {
+    content: ''; position: sticky; right: 0; z-index: 2; flex: none;
+    width: 30px; align-self: stretch; margin: -3px -3px -3px -30px;
+    background: linear-gradient(90deg, transparent, var(--ink-900));
+    pointer-events: none;
+  }
+}
 @media (min-width: 901px) {
   .chip-rail { overflow-x: visible; }
 }
@@ -1238,8 +1271,7 @@ b { font-weight: 600; }
 @media (max-width: 900px) {
   .panel--orders .panel-head {
     position: sticky; top: 0; z-index: 3;
-    margin: calc(-1 * var(--s4)) calc(-1 * var(--s5)) 0;
-    padding: var(--s4) var(--s5);
-    background: var(--ink-950);
+    background: var(--ink-850);
+    border-radius: var(--r-panel) var(--r-panel) 0 0;
   }
 }
